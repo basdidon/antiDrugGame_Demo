@@ -6,8 +6,13 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
 
+    private SpriteRenderer spriteRendererPlayer;
+
     public int maxHP;
     public int currentHP;
+
+    public float invincibleLength;
+    public float invincibleCounter;
 
     public int scoreToReduce = 100;
     
@@ -20,24 +25,43 @@ public class PlayerController : MonoBehaviour
     {
         maxHP = 3;
         currentHP = maxHP;
+
+        spriteRendererPlayer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        if (invincibleCounter > 0)
+        {
+            invincibleCounter -= Time.deltaTime;
+
+            if(invincibleCounter <= 0)
+            {
+                spriteRendererPlayer.color = new Color(spriteRendererPlayer.color.r, spriteRendererPlayer.color.g, spriteRendererPlayer.color.b, 1f);
+            }
+        }
     }
 
     public void dealDamage(int damage)
     {
-        currentHP = currentHP - damage;
-        if (currentHP <= 0)
+        if (invincibleCounter <= 0)
         {
-            FindObjectOfType<scoreManager>().reduceScore(scoreToReduce);
-            //death
-            //Debug.Log("death");
+            currentHP = currentHP - damage;
+            if (currentHP <= 0)
+            {
+                FindObjectOfType<scoreManager>().reduceScore(scoreToReduce);
+                //death
+                //Debug.Log("death");
 
-            LevelManager.instance.RespawnPlayer();
+                LevelManager.instance.RespawnPlayer();
+            }
+            else
+            {
+                invincibleCounter = invincibleLength;
+                spriteRendererPlayer.color = new Color(spriteRendererPlayer.color.r, spriteRendererPlayer.color.g, spriteRendererPlayer.color.b, 0.5f);
+                
+            }
         }
     }
     
