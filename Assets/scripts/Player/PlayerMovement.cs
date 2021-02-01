@@ -71,10 +71,10 @@ public class PlayerMovement : MonoBehaviour
 
         //facing handle
         if (moveHorizontal < 0) {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(1, 1, 1);
             facingRight = false;
         } else if (moveHorizontal > 0) {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(-1, 1, 1);
             facingRight = true;
         } else {
 

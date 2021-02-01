@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour
         spriteRendererPlayer = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (invincibleCounter > 0)
